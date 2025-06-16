@@ -100,6 +100,34 @@
                     "isPartOfComposite": true
                 }
             ]
+        },
+        {
+            "name": "Touch",
+            "id": "48fa2a07-18ef-4282-9c5d-e721970c1b03",
+            "actions": [
+                {
+                    "name": "TouchPosition",
+                    "type": "Value",
+                    "id": "43ed8338-5b31-4aa0-9034-0281952c19d5",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "5536d492-71a6-4d60-a755-af2c57580186",
+                    "path": "<Touchscreen>/primaryTouch/position",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "TouchPosition",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": []
