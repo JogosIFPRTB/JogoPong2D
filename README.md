@@ -1,4 +1,4 @@
-# 🏓 Jogo 2D de Pong - Unity 6
+# 🏓 Jogo 2D de Pong - Unity 6 (PC e Mobile)
 
 Este é um projeto desenvolvido no **Unity 6** como parte do curso de **Programação de Jogos Digitais**. O jogo é uma recriação do clássico **Pong**, permitindo que dois jogadores disputem em um ambiente simples e divertido.
 
@@ -9,9 +9,10 @@ Este é um projeto desenvolvido no **Unity 6** como parte do curso de **Programa
 O jogo consiste em dois jogadores controlando **batedores** para rebater a bola e impedir que ela passe para o lado adversário. O objetivo é marcar pontos quando o oponente não consegue devolver a bola.
 
 🔹 **Modos de Jogo:** 1x1 local  
-🔹 **Plataforma:** PC  
+🔹 **Plataforma:** PC (teclado) e Mobile (toque na tela)  
 🔹 **Motor Gráfico:** Unity 6  
 🔹 **Linguagem:** C#  
+🔹 Desenvolvido como aprendizado no uso de física 2D e Input System
 
 ---
 
@@ -31,7 +32,9 @@ O jogo consiste em dois jogadores controlando **batedores** para rebater a bola 
 📦 Pong-Unity6
  ┣ 📂 Assets
  ┃ ┣ 📂 Scripts
- ┃ ┃ ┣ 📜 Batedor.cs        # Controle do jogador
+ ┃ ┃ ┣ 📜 BatedorMovimento.cs        # Controle de movimentação
+ ┃ ┃ ┣ 📜 BatedorInputTeclado.cs     # Captura input do teclado
+ ┃ ┃ ┣ 📜 BatedorInputTouch.cs       # Captura input via toque
  ┃ ┃ ┣ 📜 Bola.cs           # Lógica da bola e pontuação
  ┃ ┃ ┣ 📜 Placar.cs         # Controle do placar
  ┃ ┃ ┗ 📜 GameManager.cs    # Gerenciamento do jogo
@@ -50,6 +53,10 @@ O jogo consiste em dois jogadores controlando **batedores** para rebater a bola 
 
 O jogo termina quando um dos jogadores atinge a pontuação máxima.
 
+📱 No Mobile:
+- Toque na metade esquerda da tela para controlar o Batedor da Esquerda.
+- Toque na metade direita da tela para controlar o Batedor da Direita.
+
 ---
 
 ## 🚀 Como Executar o Projeto
@@ -61,7 +68,7 @@ O jogo termina quando um dos jogadores atinge a pontuação máxima.
 Se deseja baixar o projeto via Git, use o seguinte comando no terminal:
 
 ```sh
-git clone https://github.com/seu-usuario/pong-unity6.git
+git clone https://github.com/JogosIFPRTB/JogoPong2D.git
 ```
 Ou baixe o projeto manualmente clicando no botão Download ZIP.
 
@@ -70,6 +77,11 @@ Ou baixe o projeto manualmente clicando no botão Download ZIP.
 2. Clique em Open e selecione a pasta do projeto.
 3 Aguarde o carregamento da cena inicial.
 4. Pressione Play no Unity para testar o jogo.
+
+### 📱 Rodando no Mobile
+1. Acesse `File -> Build Settings`.
+2. Selecione `Android` (ou `iOS` se aplicável) e clique em `Switch Platform`.
+3. Clique em `Build And Run` com um dispositivo conectado via USB.
 
 ---
 
@@ -97,7 +109,7 @@ Ou baixe o projeto manualmente clicando no botão Download ZIP.
 1. Fork este repositório.
 2. Clone para sua máquina local:
 ```sh
-git clone https://github.com/seu-usuario/pong-unity6.git
+git clone https://github.com/JogosIFPRTB/JogoPong2D.git
 ```
 3. Crie uma branch para a sua alteração:
 ```sh
@@ -122,6 +134,9 @@ git push origin minha-melhoria
 - ✅ Criar efeitos visuais na bola e nas bordas da tela.
 - ✅ Implementar trilha sonora e efeitos sonoros.
 - ✅ Melhorar interface gráfica (UI) e animações.
+- ✅ Sistema de pausa.
+- ✅ Tela de início e tela de vitória.
+- ✅ Suporte para joystick/gamepad.
 
 ---
 
@@ -129,6 +144,8 @@ git push origin minha-melhoria
 Este projeto é de código aberto e pode ser utilizado para fins educacionais.
 
 📝 Licença MIT - Você pode modificar, distribuir e usar o código como desejar.
+
+![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
 
 ---
 
