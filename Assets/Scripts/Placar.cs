@@ -7,11 +7,9 @@ using TMPro; // Importa a biblioteca do TextMeshPro
 /// </summary>
 public class Placar : MonoBehaviour
 {
-    // Variável para armazenar a pontuação do jogador
-    private int ponto;
+    private int ponto = 0; // Pontuação do jogador
 
-    // Referência ao componente de texto (TextMeshPro)
-    private TextMeshProUGUI placarTexto;
+    private TextMeshProUGUI placarTexto; // Referência ao componente de texto
 
     private void Start()
     {
@@ -41,7 +39,16 @@ public class Placar : MonoBehaviour
     }
 
     /// <summary>
-    /// Atualiza o texto do placar na interface do usuário.
+    /// Reseta a pontuação para zero.
+    /// </summary>
+    public void Resetar()
+    {
+        ponto = 0;
+        AtualizarPlacar();
+    }
+
+    /// <summary>
+    /// Atualiza o texto na tela com a pontuação atual.
     /// </summary>
     private void AtualizarPlacar()
     {
