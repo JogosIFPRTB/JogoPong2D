@@ -377,6 +377,54 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!1 &385060648
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 385060650}
+  - component: {fileID: 385060649}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &385060649
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 385060648}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a30cab0192944aa4884c2b28202ff593, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pontuacaoFinal: 5
+  placarEsquerda: {fileID: 2101073386}
+  placarDireita: {fileID: 591945181}
+  bola: {fileID: 2069231308}
+--- !u!4 &385060650
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 385060648}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -830,7 +878,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 5, z: 0}
-  m_LocalScale: {x: 16.5, y: 0.5, z: 1}
+  m_LocalScale: {x: 16, y: 0.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -845,7 +893,7 @@ BoxCollider2D:
   m_Enabled: 1
   serializedVersion: 3
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: c02379794ca1f6646835440e30d6fc5c, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -891,7 +939,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1260560869}
   - component: {fileID: 1260560868}
-  - component: {fileID: 1260560867}
+  - component: {fileID: 1260560873}
+  - component: {fileID: 1260560872}
   - component: {fileID: 1260560870}
   - component: {fileID: 1260560871}
   m_Layer: 0
@@ -901,19 +950,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1260560867
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1260560866}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e4f39046f2e2b5c4fa096617e5611a88, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  velocidade: 5
 --- !u!212 &1260560868
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1011,7 +1047,7 @@ MonoBehaviour:
   m_ActionEvents: []
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
-  m_DefaultActionMap: MovimentoDireita
+  m_DefaultActionMap: Touch
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
 --- !u!61 &1260560871
@@ -1060,6 +1096,32 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &1260560872
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1260560866}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0cd8dc9367267b8478cb17f6bd1cea74, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isLeftPlayer: 0
+--- !u!114 &1260560873
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1260560866}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5532c78b2d068ce4e8a322e5916238f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  velocidade: 5
 --- !u!1 &1538145057
 GameObject:
   m_ObjectHideFlags: 0
@@ -1261,7 +1323,7 @@ BoxCollider2D:
   m_Enabled: 1
   serializedVersion: 3
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: c02379794ca1f6646835440e30d6fc5c, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -1330,9 +1392,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   velocidade: 5
-  placarEsquerda: {fileID: 2101073386}
-  placarDireita: {fileID: 591945181}
-  pontuacaoFinal: 0
 --- !u!212 &2069231309
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1628,3 +1687,4 @@ SceneRoots:
   - {fileID: 1260560869}
   - {fileID: 1104583123}
   - {fileID: 2060491846}
+  - {fileID: 385060650}
