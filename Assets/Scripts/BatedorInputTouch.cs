@@ -2,74 +2,127 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 /// <summary>
-/// Script respons·vel por capturar o input de toque na tela
-/// utilizando o Input System. Funciona dividindo a tela em duas metades:
-/// metade esquerda controla o jogador da esquerda e metade direita controla o jogador da direita.
+/// Script respons√°vel por capturar os toques na tela.
+/// Permite que dois jogadores, cada um de um lado da tela (esquerda ou direita),
+/// controlem seus batedores em um jogo (ex.: Pong ou Air Hockey).
+/// Funciona em dispositivos com tela sens√≠vel ao toque (mobile ou tablets).
+/// Cada jogador toca na sua metade da tela:
+/// - Se tocar acima do batedor, ele sobe.
+/// - Se tocar abaixo, ele desce.
+/// - Se n√£o tocar, o batedor para.
+/// Suporte completo a m√∫ltiplos toques simult√¢neos.
 /// </summary>
+[RequireComponent(typeof(BatedorMovimento))] // Garante que este GameObject tenha o script de movimento
 public class BatedorInputTouch : MonoBehaviour
 {
-    [SerializeField] private bool isLeftPlayer = true; // Define se este batedor È o da esquerda (true) ou da direita (false)
+    // ==== CONFIGURA√á√ïES ====
 
-    private BatedorMovimento movimento; // ReferÍncia ao script de movimentaÁ„o
-    private InputAction touchPositionAction; // AÁ„o do Input System para capturar a posiÁ„o do toque
+    [Header("Configura√ß√µes do Jogador")]
+    [Tooltip("Se verdadeiro, este batedor √© o da esquerda. Se falso, √© o da direita.")]
+    [SerializeField] private bool isLeftPlayer = true;
 
+    [Header("Configura√ß√µes de Sensibilidade")]
+    [Tooltip("Define a dist√¢ncia m√≠nima (em unidades) para considerar que o batedor deve se mover. Serve para ignorar pequenos toques que poderiam gerar tremores.")]
+    [SerializeField] private float deadZone = 0.1f;
+
+
+    // ==== VARI√ÅVEIS INTERNAS ====
+
+    // Refer√™ncia ao script que faz o batedor se mover
+    private BatedorMovimento movimento;
+
+    // Refer√™ncia √† c√¢mera principal da cena (necess√°ria para converter a posi√ß√£o do toque para o mundo do jogo)
+    private Camera mainCamera;
+
+
+    // ==== M√âTODOS DO CICLO DE VIDA ====
+
+    /// <summary>
+    /// Awake √© chamado assim que o objeto √© criado, antes de Start.
+    /// Usamos aqui para pegar as refer√™ncias necess√°rias.
+    /// </summary>
     private void Awake()
     {
-        // ObtÈm o componente de movimentaÁ„o no mesmo GameObject
+        // Pegamos o componente BatedorMovimento que est√° no mesmo objeto
         movimento = GetComponent<BatedorMovimento>();
+
+        // Pegamos a refer√™ncia da c√¢mera principal
+        mainCamera = Camera.main;
     }
 
-    private void OnEnable()
-    {
-        // ObtÈm o componente PlayerInput e a aÁ„o de toque configurada no Input Actions
-        var playerInput = GetComponent<PlayerInput>();
-        touchPositionAction = playerInput.actions["TouchPosition"];
-
-        // Ativa a captura do toque
-        touchPositionAction.Enable();
-    }
-
-    private void OnDisable()
-    {
-        // Desativa a captura do toque quando o objeto for desativado
-        touchPositionAction.Disable();
-    }
-
+    /// <summary>
+    /// Update √© chamado uma vez por frame (a todo momento que o jogo est√° rodando).
+    /// Aqui fazemos a leitura dos toques na tela.
+    /// </summary>
     private void Update()
     {
-        // LÍ a posiÁ„o atual do toque na tela (em pixels)
-        Vector2 toque = touchPositionAction.ReadValue<Vector2>();
-
-        // Verifica se h· toque na tela (se n„o h·, o valor È zero)
-        if (toque != Vector2.zero)
+        // Verifica se h√° uma tela sens√≠vel ao toque dispon√≠vel
+        if (Touchscreen.current != null)
         {
-            // Converte a posiÁ„o do toque de pixels para coordenadas do mundo
-            Vector3 toquePos = Camera.main.ScreenToWorldPoint(toque);
-
-            // Verifica se o toque est· na metade correta da tela (esquerda ou direita)
-            if ((toquePos.x < 0 && isLeftPlayer) || (toquePos.x > 0 && !isLeftPlayer))
+            // Verifica se existem toques ativos na tela
+            if (Touchscreen.current.touches.Count > 0)
             {
-                // Calcula a direÁ„o:
-                // Se o toque est· acima do batedor, move para cima (1)
-                // Se est· abaixo, move para baixo (-1)
-                float direcao = toquePos.y > transform.position.y ? 1 : -1;
+                bool toqueValidoEncontrado = false; // Controla se achamos um toque na metade da tela do jogador
 
-                // Se estiver muito prÛximo (diferenÁa menor que 0.1), n„o se move (0)
-                if (Mathf.Abs(toquePos.y - transform.position.y) < 0.1f)
-                    direcao = 0;
+                // Percorre todos os toques ativos na tela
+                foreach (var touchControl in Touchscreen.current.touches)
+                {
+                    // Verifica se este toque est√° pressionado (dedo encostando na tela)
+                    if (touchControl.press.isPressed)
+                    {
+                        // L√™ a posi√ß√£o do toque em pixels na tela
+                        Vector2 touchPos = touchControl.position.ReadValue();
 
-                // Envia o valor de direÁ„o para o script de movimentaÁ„o
-                movimento.DefinirMovimento(direcao);
+                        // Converte a posi√ß√£o da tela (2D em pixels) para o mundo do jogo (3D em unidades Unity)
+                        Vector3 worldPos = mainCamera.ScreenToWorldPoint(new Vector3(touchPos.x, touchPos.y, 0));
+
+                        // Verifica se o toque est√° na metade correta da tela:
+                        // - Se for o jogador da esquerda, o toque deve estar com worldPos.x < 0
+                        // - Se for o jogador da direita, o toque deve estar com worldPos.x > 0
+                        bool toqueValido = (worldPos.x < 0 && isLeftPlayer) || (worldPos.x > 0 && !isLeftPlayer);
+
+                        if (toqueValido)
+                        {
+                            // Calcula a diferen√ßa na posi√ß√£o Y entre o toque e o batedor
+                            float diferencaY = worldPos.y - transform.position.y;
+
+                            // Inicializa a dire√ß√£o como zero (parado)
+                            float direcao = 0;
+
+                            // Se a diferen√ßa na altura for maior que a deadZone, decide se deve subir ou descer
+                            if (Mathf.Abs(diferencaY) >= deadZone)
+                            {
+                                // Se o toque est√° acima do batedor, sobe (+1), sen√£o desce (-1)
+                                direcao = diferencaY > 0 ? 1 : -1;
+                            }
+
+                            // Envia a dire√ß√£o para o script de movimento
+                            movimento.DefinirMovimento(direcao);
+
+                            // Marca que j√° encontramos um toque v√°lido (n√£o precisa olhar os outros)
+                            toqueValidoEncontrado = true;
+
+                            // Interrompe o loop, j√° que encontramos um toque v√°lido
+                            break;
+                        }
+                    }
+                }
+
+                // Se nenhum toque v√°lido foi encontrado na metade do jogador, o batedor para
+                if (!toqueValidoEncontrado)
+                {
+                    movimento.DefinirMovimento(0);
+                }
             }
             else
             {
-                // Se o toque n„o est· na metade correta, n„o se move
+                // Se n√£o h√° toques na tela, o batedor fica parado
                 movimento.DefinirMovimento(0);
             }
         }
         else
         {
-            // Se n„o h· toque, para o movimento
+            // Se n√£o h√° suporte a tela sens√≠vel ao toque (ex.: no editor), o batedor fica parado
             movimento.DefinirMovimento(0);
         }
     }
